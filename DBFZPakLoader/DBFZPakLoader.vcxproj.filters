@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files\UnrealEngine">
+      <UniqueIdentifier>{0d902603-31f4-4c1d-ab5f-881c0a0af0fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UnrealEngine\PakFile">
+      <UniqueIdentifier>{de073ed6-ea9b-48e3-87e0-c6d33b1f381f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UnrealEngine">
+      <UniqueIdentifier>{2f9063bd-1df3-483d-b788-ca2909ec6cf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UnrealEngine\PakFile">
+      <UniqueIdentifier>{3ef233db-efd8-44f7-972d-9cdd17f26eee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{ed43ce0a-5d28-4e9a-b24d-f84f99faff8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{2808fb10-d93c-4630-9fdf-6c4ee61bae8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UnrealEngine\Core">
+      <UniqueIdentifier>{8cdac27d-45e6-4ca8-90c7-9c41d0e4b395}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{f2f8db8d-39f7-4efa-a4c5-fc8570c2aa65}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnrealEngine\PakFile\IPlatformFilePak.cpp">
+      <Filter>Source Files\UnrealEngine\PakFile</Filter>
+    </ClCompile>
+    <ClCompile Include="UnrealEngine\UnrealStart.cpp">
+      <Filter>Source Files\UnrealEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\GameHelper.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="UnrealEngine\Core\FPlatformFilemanager.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="UnrealEngine\PakFile\IPlatformFilePak.h">
+      <Filter>Header Files\UnrealEngine\PakFile</Filter>
+    </ClInclude>
+    <ClInclude Include="UnrealEngine\UnrealStart.h">
+      <Filter>Header Files\UnrealEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\GameHelper.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="UnrealEngine\Core\FPlatformFilemanager.h">
+      <Filter>Header Files\UnrealEngine\Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
