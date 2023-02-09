@@ -9,26 +9,30 @@
 #include <thread>
 
 HMODULE instance;
-std::vector<FString> mountedPaks;
-
-void Hook()
-{
-
-}
+//std::vector<FString> mountedPaks;
 
 void MountAllMods()
 {
+#ifdef DEBUG
     std::cout << "FPlatformFilemanager: " << FPlatformFilemanager::getInstance() << std::endl;
+#endif
 
-    volatile IPlatformFilePak* platform_file_pak = IPlatformFilePak::getInstance();
+    IPlatformFilePak* platform_file_pak = IPlatformFilePak::getInstance();
 
-    while (platform_file_pak == nullptr)
+#ifdef DEBUG
+    if (platform_file_pak == nullptr)
     {
         std::cout << "Waiting for IPlatformFilePak..." << std::endl;
-        platform_file_pak = IPlatformFilePak::getInstance();
+#endif
+        while (platform_file_pak == nullptr)
+        {
+            platform_file_pak = IPlatformFilePak::getInstance();
+        }
+#ifdef DEBUG
     }
 
     std::cout << "IPlatformFilePak: " << platform_file_pak << std::endl;
+#endif
 
     std::string target_extension = ".pxk";
 
@@ -38,19 +42,25 @@ void MountAllMods()
     {
         if (entry.path().extension() != target_extension) continue;
         FString pak_file = entry.path().c_str();
+#ifdef DEBUG
         bool mounted = IPlatformFilePak::getInstance()->HandleMountPakDelegate(pak_file, 4);
         if (mounted)
         {
             std::cout << "Mounted: " << pak_file.ToString() << std::endl;
-            mountedPaks.push_back(pak_file);
+            //mountedPaks.push_back(pak_file);
         }
-        else {
+        else 
+        {
             std::cout << "Failed to mount: " << pak_file.ToString() << std::endl;
         }
+#else
+    IPlatformFilePak::getInstance()->HandleMountPakDelegate(pak_file, 4);
+#endif
     }
+    FreeLibraryAndExitThread(instance, 0);
 }
 
-void UnmountAllMods()
+/*void UnmountAllMods()
 {
     for (const FString& pak_file : mountedPaks)
     {
@@ -60,23 +70,18 @@ void UnmountAllMods()
             std::cout << "Unmounted: " << pak_file.ToString() << std::endl;
             mountedPaks.erase(mountedPaks.begin());
         }
-        else {
+        else
+        {
             std::cout << "Failed to unmount: " << pak_file.ToString() << std::endl;
         }
     }
-}
-
-void Terminate()
-{
-    //fclose(dummy);
-    FreeLibraryAndExitThread(instance, 0);
-}
+}*/
 
 void UnrealStart::Intialize(HMODULE module)
 {
     instance = module;
 
-#ifdef DEBUG
+    /*
     auto CreateConsole = [](const char* name) {
         if (!AllocConsole())
             return;
@@ -91,7 +96,7 @@ void UnrealStart::Intialize(HMODULE module)
 
 
     CreateConsole("DBFZ Mod Enabler");
-#endif
+    */
     
 
     CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)MountAllMods, module, 0, nullptr);

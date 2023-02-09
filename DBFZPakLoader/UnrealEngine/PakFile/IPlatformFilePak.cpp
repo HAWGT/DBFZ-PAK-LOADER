@@ -16,9 +16,9 @@ bool IPlatformFilePak::HandleMountPakDelegate(const FString& PakFilePath, int32 
     return mounted;
 }
 
-bool IPlatformFilePak::HandleUnmountPakDelegate(const FString& PakFilePath)
+/*bool IPlatformFilePak::HandleUnmountPakDelegate(const FString& PakFilePath)
 {
     static std::uintptr_t handleUnmountPakDelegateFunction = GameHelper::getInstance()->getBaseAddress() + 0x24DF150;
     bool unMounted = reinterpret_cast<bool(__fastcall*)(void*, const FString&)>(handleUnmountPakDelegateFunction)(this, PakFilePath); //Right after
     return unMounted;
-}
+}*/

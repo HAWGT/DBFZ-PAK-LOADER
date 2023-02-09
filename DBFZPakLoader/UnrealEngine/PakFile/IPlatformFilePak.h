@@ -92,6 +92,5 @@ public:
 
     bool HandleMountPakDelegate(const FString& PakFilePath, int32 PakOrder);
 
-	bool HandleUnmountPakDelegate(const FString& PakFilePath);
-
+	//bool HandleUnmountPakDelegate(const FString& PakFilePath);
 };
