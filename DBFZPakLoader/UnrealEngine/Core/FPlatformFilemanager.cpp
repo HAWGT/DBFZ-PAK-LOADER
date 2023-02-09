@@ -21,6 +21,7 @@ FPlatformFilemanager* FPlatformFilemanager::getInstance()
 IPlatformFilePak* FPlatformFilemanager::FindPlatformFile()
 {
 	static std::uintptr_t findplatformFileFunction = GameHelper::getInstance()->getBaseAddress() + 0x934C00;
-	static IPlatformFilePak* instance = reinterpret_cast<IPlatformFilePak*(__fastcall*)(void*, __int64)>(findplatformFileFunction)(this, (__int64)L"PakFile"); //Searched for this string, few entries
+	//Can't be static because the value will change upon initialization
+	IPlatformFilePak* instance = reinterpret_cast<IPlatformFilePak*(__fastcall*)(void*, __int64)>(findplatformFileFunction)(this, (__int64)L"PakFile"); //Searched for this string, few entries
 	return instance;
 }

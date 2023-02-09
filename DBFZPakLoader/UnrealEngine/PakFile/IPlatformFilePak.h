@@ -55,7 +55,7 @@ struct FString : private TArray<wchar_t> {
 
 	FString(const wchar_t* other)
 	{
-		Max = Count = *other ? std::wcslen(other) + 1 : 0;
+		Max = Count = *other ? int32_t(std::wcslen(other)) + 1 : 0;
 		if (Count)
 			Data = const_cast<wchar_t*>(other);
 	};
@@ -90,8 +90,8 @@ class IPlatformFilePak {
 public:
     static IPlatformFilePak* getInstance();
 
-    bool MountPak(const TCHAR* InPakFilename, uint32 PakOrder, const TCHAR* InPath);
+    bool HandleMountPakDelegate(const FString& PakFilePath, int32 PakOrder);
 
-    void* HandleMountPakDelegate(const FString& PakFilePath, int32 PakOrder);
+	bool HandleUnmountPakDelegate(const FString& PakFilePath);
 
 };
