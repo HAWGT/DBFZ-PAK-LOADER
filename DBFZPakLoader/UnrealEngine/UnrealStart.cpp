@@ -81,7 +81,7 @@ void UnrealStart::Intialize(HMODULE module)
 {
     instance = module;
 
-    /*
+#ifdef DEBUG
     auto CreateConsole = [](const char* name) {
         if (!AllocConsole())
             return;
@@ -95,8 +95,8 @@ void UnrealStart::Intialize(HMODULE module)
     };
 
 
-    CreateConsole("DBFZ Mod Enabler");
-    */
+    CreateConsole("Debug Console");
+#endif
     
 
     CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)MountAllMods, module, 0, nullptr);
