@@ -103,6 +103,11 @@ void MountAllMods()
         }
     }
 #ifndef _DEBUG
+    Beep(523, 500);
+    Beep(587, 500);
+    Beep(659, 500);
+    Beep(698, 500);
+    Beep(784, 500);
     FreeLibraryAndExitThread(instance, 0);
 #endif
 }
