@@ -2,23 +2,26 @@
 #include "../Core/FPlatformFilemanager.h"
 #include "../../Utils/GameHelper.h"
 
+#include <Windows.h>
+
 IPlatformFilePak* IPlatformFilePak::getInstance()
 {
     //Can't be static because the value will change upon initialization
-    IPlatformFilePak* platformInstance = FPlatformFilemanager::getInstance()->FindPlatformFile();
+    IPlatformFilePak* platformInstance;
+    try {
+        platformInstance = FPlatformFilemanager::getInstance()->FindPlatformFile();
+    }
+    catch(...)
+    {
+        throw 0;
+    }
     return platformInstance;
 }
 
 bool IPlatformFilePak::HandleMountPakDelegate(const FString& PakFilePath, int32 PakOrder)
 {
-    static std::uintptr_t handleMountPakDelegateFunction = GameHelper::getInstance()->getBaseAddress() + 0x24DEF50;
+    if (handleMountPakDelegateFunction == (std::uintptr_t)nullptr) handleMountPakDelegateFunction = (std::uintptr_t)GameHelper::getInstance()->PatternScan(GetModuleHandleA(nullptr), "41 54 41 55 41 56 41 57 48 81 EC A8 00 00 00 83 7A 08 00 4D 8B E1 4C 8B F2 4C 8B F9 74 05 48 8B 12 EB 07 48 8D 15");
+    if (handleMountPakDelegateFunction == (std::uintptr_t)nullptr) throw 0;
     bool mounted = reinterpret_cast<bool(__fastcall*)(void*, const FString&, int32, void*)>(handleMountPakDelegateFunction)(this, PakFilePath, PakOrder, nullptr); //Seached for %sPaks/%s- from Initialize
     return mounted;
 }
-
-/*bool IPlatformFilePak::HandleUnmountPakDelegate(const FString& PakFilePath)
-{
-    static std::uintptr_t handleUnmountPakDelegateFunction = GameHelper::getInstance()->getBaseAddress() + 0x24DF150;
-    bool unMounted = reinterpret_cast<bool(__fastcall*)(void*, const FString&)>(handleUnmountPakDelegateFunction)(this, PakFilePath); //Right after
-    return unMounted;
-}*/

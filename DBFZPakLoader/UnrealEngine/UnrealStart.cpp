@@ -2,6 +2,7 @@
 
 #include "../UnrealEngine/PakFile/IPlatformFilePak.h"
 #include "../UnrealEngine/Core/FPlatformFilemanager.h"
+#include "../Utils/GameHelper.h"
 
 #include <cstdio>
 #include <iostream>
@@ -9,29 +10,60 @@
 #include <thread>
 
 HMODULE instance;
-//std::vector<FString> mountedPaks;
+
+#ifdef _DEBUG
+FILE* consoleIO;
+#endif
 
 void MountAllMods()
 {
-#ifdef DEBUG
-    std::cout << "FPlatformFilemanager: " << FPlatformFilemanager::getInstance() << std::endl;
+    FPlatformFilemanager* platform_file_manager;
+    IPlatformFilePak* platform_file_pak;
+
+    try {
+        platform_file_manager = FPlatformFilemanager::getInstance();
+    }
+    catch(...)
+    {
+#ifdef _DEBUG
+        std::cout << "[x] FPlatformFileManager::Get couldn't be found! Aborting..." << std::endl;
+        return;
+#else
+        MessageBoxA(nullptr, "Error!", "DBFZ Pak Loader", MB_OK | MB_ICONERROR);
+        FreeLibraryAndExitThread(instance, 0);
+#endif
+    }
+#ifdef _DEBUG
+        std::cout << "[x] FPlatformFilemanager: " << platform_file_manager << std::endl;
 #endif
 
-    IPlatformFilePak* platform_file_pak = IPlatformFilePak::getInstance();
+    try {
+        platform_file_pak = IPlatformFilePak::getInstance();
+    }
+    catch (...)
+    {
+#ifdef _DEBUG
+        std::cout << "[x] FPlatformFileManager::FindPlatformFile couldn't be found! Aborting..." << std::endl;
+        return;
+#else
+        MessageBoxA(nullptr, "Error!", "DBFZ Pak Loader", MB_OK | MB_ICONERROR);
+        FreeLibraryAndExitThread(instance, 0);
+#endif
+    }
 
-#ifdef DEBUG
+#ifdef _DEBUG
     if (platform_file_pak == nullptr)
     {
-        std::cout << "Waiting for IPlatformFilePak..." << std::endl;
+        std::cout << "[x] Waiting for IPlatformFilePak..." << std::endl;
 #endif
         while (platform_file_pak == nullptr)
         {
             platform_file_pak = IPlatformFilePak::getInstance();
         }
-#ifdef DEBUG
+#ifdef _DEBUG
     }
 
-    std::cout << "IPlatformFilePak: " << platform_file_pak << std::endl;
+    std::cout << "[x] IPlatformFilePak: " << platform_file_pak << std::endl;
 #endif
 
     std::string target_extension = ".pxk";
@@ -42,60 +74,59 @@ void MountAllMods()
     {
         if (entry.path().extension() != target_extension) continue;
         FString pak_file = entry.path().c_str();
-#ifdef DEBUG
-        bool mounted = IPlatformFilePak::getInstance()->HandleMountPakDelegate(pak_file, 4);
-        if (mounted)
+        try
         {
-            std::cout << "Mounted: " << pak_file.ToString() << std::endl;
-            //mountedPaks.push_back(pak_file);
-        }
-        else 
-        {
-            std::cout << "Failed to mount: " << pak_file.ToString() << std::endl;
-        }
-#else
-    IPlatformFilePak::getInstance()->HandleMountPakDelegate(pak_file, 4);
-#endif
-    }
-    FreeLibraryAndExitThread(instance, 0);
-}
 
-/*void UnmountAllMods()
-{
-    for (const FString& pak_file : mountedPaks)
-    {
-        bool unMounted = IPlatformFilePak::getInstance()->HandleUnmountPakDelegate(pak_file);
-        if (unMounted)
-        {
-            std::cout << "Unmounted: " << pak_file.ToString() << std::endl;
-            mountedPaks.erase(mountedPaks.begin());
+#ifdef _DEBUG
+            bool mounted = platform_file_pak->HandleMountPakDelegate(pak_file, 4);
+            if (mounted)
+            {
+                std::cout << "[x] Mounted: " << pak_file.ToString() << std::endl;
+            }
+            else
+            {
+                std::cout << "[x] Failed to mount: " << pak_file.ToString() << std::endl;
+            }
+#else
+            platform_file_pak->HandleMountPakDelegate(pak_file, 4);
+#endif
         }
-        else
+        catch (...)
         {
-            std::cout << "Failed to unmount: " << pak_file.ToString() << std::endl;
+#ifdef _DEBUG
+            std::cout << "[x] FPlatformFilePak::HandleMountPakDelegate couldn't be found! Aborting..." << std::endl;
+            return;
+#else
+            MessageBoxA(nullptr, "Error!", "DBFZ Pak Loader", MB_OK | MB_ICONERROR);
+            FreeLibraryAndExitThread(instance, 0);
+#endif
         }
     }
-}*/
+#ifndef _DEBUG
+    FreeLibraryAndExitThread(instance, 0);
+#endif
+}
 
 void UnrealStart::Intialize(HMODULE module)
 {
     instance = module;
 
-#ifdef DEBUG
+#ifdef _DEBUG
     auto CreateConsole = [](const char* name) {
         if (!AllocConsole())
             return;
 
-        FILE* fDummy;
-        freopen_s(&fDummy, "CONIN$", "r", stdin);
-        freopen_s(&fDummy, "CONOUT$", "w", stderr);
-        freopen_s(&fDummy, "CONOUT$", "w", stdout);
+        freopen_s(&consoleIO, "CONIN$", "r", stdin);
+        freopen_s(&consoleIO, "CONOUT$", "w", stderr);
+        freopen_s(&consoleIO, "CONOUT$", "w", stdout);
 
         SetConsoleTitleA(name);
     };
 
 
     CreateConsole("Debug Console");
+
+    std::cout << "[x] DBFZ Pak Loader" << std::endl;
 #endif
     
 

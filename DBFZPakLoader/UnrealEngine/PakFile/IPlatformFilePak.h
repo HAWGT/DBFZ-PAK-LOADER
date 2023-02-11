@@ -3,6 +3,7 @@
 #include <tchar.h>
 #include <string>
 #include <locale>
+#include <cstdint>
 
 typedef signed char int8;
 typedef short int16;
@@ -87,10 +88,10 @@ struct FString : private TArray<wchar_t> {
 };
 
 class IPlatformFilePak {
+private:
+	inline static std::uintptr_t handleMountPakDelegateFunction;
 public:
     static IPlatformFilePak* getInstance();
 
     bool HandleMountPakDelegate(const FString& PakFilePath, int32 PakOrder);
-
-	//bool HandleUnmountPakDelegate(const FString& PakFilePath);
 };
