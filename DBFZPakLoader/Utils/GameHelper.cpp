@@ -7,7 +7,7 @@
 
 std::uintptr_t GameHelper::getBaseAddress()
 {
-    std::uintptr_t baseModule = std::uintptr_t(GetModuleHandleA(nullptr));
+    std::uintptr_t baseModule = std::uintptr_t(process_module);
     return baseModule;
 }
 
