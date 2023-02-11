@@ -13,7 +13,7 @@
 
 FPlatformFilemanager* FPlatformFilemanager::getInstance()
 {
-	platformFilemanagerGetFunction = (std::uintptr_t)GameHelper::getInstance()->PatternScan(GameHelper::process_module, "48 8D 05 ? ? ? ? C3 CC CC CC CC CC CC CC CC 48 83 EC 28 65 48 8B 04 25 58 00 00 00 8B 0D ? ? ? ? BA 18 00 00 00 48 8B 0C C8 8B 04 0A 39 05 ? ? ? ? 7F 0C 48 8B 05 92 07 44 03 48 83 C4 28 C3 48 8D 0D");
+	platformFilemanagerGetFunction = (std::uintptr_t)GameHelper::getInstance()->PatternScan(GameHelper::process_module, "48 8D 05 ?? ?? ?? ?? C3 CC CC CC CC CC CC CC CC 48 83 EC 28 65 48 8B 04 25 58 00 00 00 8B 0D ?? ?? ?? ?? BA 18 00 00 00 48 8B 0C C8 8B 04 0A 39 05 ?? ?? ?? ?? 7F 0C 48 8B 05 ?? ?? ?? ?? 48 83 C4 28 C3 48 8D 0D");
 	if (platformFilemanagerGetFunction == (std::uintptr_t)nullptr) throw 0;
 	static FPlatformFilemanager* instance = reinterpret_cast<FPlatformFilemanager*(__fastcall*)()>(platformFilemanagerGetFunction)(); //Find Saved & Config in ConfigManifest.cpp
 	return instance;
