@@ -64,5 +64,8 @@
     <ClInclude Include="UnrealEngine\Core\FPlatformFilemanager.h">
       <Filter>Header Files\UnrealEngine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\FileChecker.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

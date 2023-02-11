@@ -1,8 +1,11 @@
+#pragma once
+
 #include "UnrealStart.h"
 
 #include "../UnrealEngine/PakFile/IPlatformFilePak.h"
 #include "../UnrealEngine/Core/FPlatformFilemanager.h"
-#include "../Utils/GameHelper.h"
+
+#include "../Utils/FileChecker.h"
 
 #include <cstdio>
 #include <iostream>
@@ -26,7 +29,7 @@ void MountAllMods()
     catch(...)
     {
 #ifdef _DEBUG
-        std::cout << "[x] FPlatformFileManager::Get couldn't be found! Aborting..." << std::endl;
+        std::cout << "[!] FPlatformFileManager::Get couldn't be found! Aborting..." << std::endl;
         return;
 #else
         MessageBoxA(nullptr, "Error!", "DBFZ Pak Loader", MB_OK | MB_ICONERROR);
@@ -34,7 +37,7 @@ void MountAllMods()
 #endif
     }
 #ifdef _DEBUG
-        std::cout << "[x] FPlatformFilemanager: " << platform_file_manager << std::endl;
+        std::cout << "[+] FPlatformFilemanager: " << platform_file_manager << std::endl;
 #endif
 
     try {
@@ -43,7 +46,7 @@ void MountAllMods()
     catch (...)
     {
 #ifdef _DEBUG
-        std::cout << "[x] FPlatformFileManager::FindPlatformFile couldn't be found! Aborting..." << std::endl;
+        std::cout << "[!] FPlatformFileManager::FindPlatformFile couldn't be found! Aborting..." << std::endl;
         return;
 #else
         MessageBoxA(nullptr, "Error!", "DBFZ Pak Loader", MB_OK | MB_ICONERROR);
@@ -54,7 +57,7 @@ void MountAllMods()
 #ifdef _DEBUG
     if (platform_file_pak == nullptr)
     {
-        std::cout << "[x] Waiting for IPlatformFilePak..." << std::endl;
+        std::cout << "[?] Waiting for IPlatformFilePak..." << std::endl;
 #endif
         while (platform_file_pak == nullptr)
         {
@@ -63,7 +66,7 @@ void MountAllMods()
 #ifdef _DEBUG
     }
 
-    std::cout << "[x] IPlatformFilePak: " << platform_file_pak << std::endl;
+    std::cout << "[+] IPlatformFilePak: " << platform_file_pak << std::endl;
 #endif
 
     std::string target_extension = ".pxk";
@@ -73,19 +76,27 @@ void MountAllMods()
     for (const std::filesystem::directory_entry& entry : std::filesystem::recursive_directory_iterator(PaksPath))
     {
         if (entry.path().extension() != target_extension) continue;
+
+        if (IsFileLocked(entry.path().c_str()))
+        {
+#ifdef _DEBUG
+            std::cout << "[-] " << entry.path() << " is in use or has already been mounted." << std::endl;
+#endif
+            continue;
+        }
         FString pak_file = entry.path().c_str();
+
         try
         {
-
 #ifdef _DEBUG
             bool mounted = platform_file_pak->HandleMountPakDelegate(pak_file, 4);
             if (mounted)
             {
-                std::cout << "[x] Mounted: " << pak_file.ToString() << std::endl;
+                std::cout << "[+] Mounted: " << pak_file.ToString() << std::endl;
             }
             else
             {
-                std::cout << "[x] Failed to mount: " << pak_file.ToString() << std::endl;
+                std::cout << "[-] Failed to mount: " << pak_file.ToString() << std::endl;
             }
 #else
             platform_file_pak->HandleMountPakDelegate(pak_file, 4);
@@ -94,7 +105,7 @@ void MountAllMods()
         catch (...)
         {
 #ifdef _DEBUG
-            std::cout << "[x] FPlatformFilePak::HandleMountPakDelegate couldn't be found! Aborting..." << std::endl;
+            std::cout << "[!] FPlatformFilePak::HandleMountPakDelegate couldn't be found! Aborting..." << std::endl;
             return;
 #else
             MessageBoxA(nullptr, "Error!", "DBFZ Pak Loader", MB_OK | MB_ICONERROR);
@@ -129,9 +140,9 @@ void UnrealStart::Intialize(HMODULE module)
     };
 
 
-    CreateConsole("Debug Console");
+    CreateConsole("DBFZ Pak Loader");
 
-    std::cout << "[x] DBFZ Pak Loader" << std::endl;
+    std::cout << "[+] DBFZ Pak Loader" << std::endl;
 #endif
 
     CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)MountAllMods, module, 0, nullptr);
