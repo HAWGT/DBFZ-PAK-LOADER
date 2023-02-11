@@ -128,7 +128,6 @@ void UnrealStart::Intialize(HMODULE module)
 
     std::cout << "[x] DBFZ Pak Loader" << std::endl;
 #endif
-    
 
     CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)MountAllMods, module, 0, nullptr);
 }
