@@ -1,3 +1,5 @@
+#pragma once
+
 #include "IPlatformFilePak.h"
 #include "../Core/FPlatformFilemanager.h"
 #include "../../Utils/GameHelper.h"
