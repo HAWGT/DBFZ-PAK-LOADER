@@ -90,8 +90,11 @@ struct FString : private TArray<wchar_t> {
 class IPlatformFilePak {
 private:
 	inline static std::uintptr_t handleMountPakDelegateFunction;
+	inline static std::uintptr_t fPakPrecacherShutdownFunction;
 public:
     static IPlatformFilePak* getInstance();
 
     bool HandleMountPakDelegate(const FString& PakFilePath, int32 PakOrder);
+
+	void KillSigChecker();
 };

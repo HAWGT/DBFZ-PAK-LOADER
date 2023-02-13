@@ -5,12 +5,6 @@
 #include <string>
 #include <vector>
 
-std::uintptr_t GameHelper::getBaseAddress()
-{
-    std::uintptr_t baseModule = std::uintptr_t(process_module);
-    return baseModule;
-}
-
 std::uint8_t* GameHelper::PatternScan(void* module, const char* signature)
 {
     static auto pattern_to_byte = [](const char* pattern) {

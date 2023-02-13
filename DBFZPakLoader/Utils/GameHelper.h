@@ -11,8 +11,6 @@ public:
         static GameHelper instance;
         return &instance;
     }
-    
-    std::uintptr_t getBaseAddress();
 
     std::uint8_t* PatternScan(void* module, const char* signature);
 };

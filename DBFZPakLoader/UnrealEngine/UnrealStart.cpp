@@ -6,6 +6,7 @@
 #include "../UnrealEngine/Core/FPlatformFilemanager.h"
 
 #include "../Utils/FileChecker.h"
+#include "../Utils/GameHelper.h"
 
 #include <cstdio>
 #include <iostream>
@@ -72,6 +73,8 @@ void MountAllMods()
     std::string target_extension = ".dbfz";
 
     const std::filesystem::path PaksPath = L"../../Content/Paks/";
+
+    platform_file_pak->KillSigChecker();
 
     for (const std::filesystem::directory_entry& entry : std::filesystem::recursive_directory_iterator(PaksPath))
     {
