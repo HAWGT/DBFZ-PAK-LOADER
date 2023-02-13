@@ -5,7 +5,7 @@
 #include "../../Utils/GameHelper.h"
 #include "../../Utils/AddressHelper.h"
 
-#include <windows.h>
+#include <Windows.h>
 
 IPlatformFilePak* IPlatformFilePak::getInstance()
 {
