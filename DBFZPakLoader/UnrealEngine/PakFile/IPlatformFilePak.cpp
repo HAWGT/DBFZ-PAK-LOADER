@@ -27,8 +27,3 @@ bool IPlatformFilePak::HandleMountPakDelegate(const FString& PakFilePath, int32 
     bool mounted = reinterpret_cast<bool(__fastcall*)(void*, const FString&, int32, void*)>(handleMountPakDelegateFunction)(this, PakFilePath, PakOrder, nullptr); //Seached for %sPaks/%s- from Initialize
     return mounted;
 }
-
-void IPlatformFilePak::ShouldCheckSignature(bool state)
-{
-    *(std::byte*)(this + 0x20) = (std::byte)state;
-}
