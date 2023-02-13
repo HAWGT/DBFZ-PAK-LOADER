@@ -31,6 +31,6 @@ bool IPlatformFilePak::HandleMountPakDelegate(const FString& PakFilePath, int32 
 void IPlatformFilePak::KillSigChecker()
 {
     *(std::byte*)(this + 0x20) = (std::byte)0; //bSigned
-    *(DWORD*)((std::uintptr_t)GameHelper::process_module + 0x385EEA4) = 0; //USE_PAK_PRECACHE - Look for FileOpenLog
+    *(DWORD*)((std::uintptr_t)GameHelper::process_module + 0x385EEA4) = 0; //GPakCache_Enable - Look for FileOpenLog
 }
 
