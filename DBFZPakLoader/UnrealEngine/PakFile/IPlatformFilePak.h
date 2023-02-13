@@ -97,5 +97,5 @@ public:
 
     bool HandleMountPakDelegate(const FString& PakFilePath, int32 PakOrder);
 
-	void KillSigChecker();
+	void DisablePakSignatureChecks();
 };

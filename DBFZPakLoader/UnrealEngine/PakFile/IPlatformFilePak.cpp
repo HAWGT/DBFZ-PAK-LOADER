@@ -29,10 +29,11 @@ bool IPlatformFilePak::HandleMountPakDelegate(const FString& PakFilePath, int32 
     return mounted;
 }
 
-void IPlatformFilePak::KillSigChecker()
+void IPlatformFilePak::DisablePakSignatureChecks()
 {
-    *(std::byte*)(this + 0x20) = (std::byte)0; //bSigned
     if (GPakCache_Enable == nullptr) GPakCache_Enable = (int*)GetAddressFromInstruction((std::uintptr_t)(GameHelper::getInstance()->PatternScan(GameHelper::process_module, "89 1D ?? ?? ?? ?? 48 8B 8C 24 D0 00 00 00 48 33 CC E8 ?? ?? ?? ?? 48 8B 9C 24 00 01 00 00 48 81 C4 E0 00 00 00 5E C3 CC CC CC CC CC")), 6);
+    if (GPakCache_Enable == nullptr) throw 0;
     *GPakCache_Enable = 0; //GPakCache_Enable - Look for FileOpenLog
+    *(std::byte*)(this + 0x20) = (std::byte)0; //bSigned
 }
 

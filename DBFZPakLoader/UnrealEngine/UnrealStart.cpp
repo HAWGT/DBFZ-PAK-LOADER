@@ -70,11 +70,26 @@ void MountAllMods()
     std::cout << "[+] IPlatformFilePak: " << platform_file_pak << std::endl;
 #endif
 
+    try {
+        platform_file_pak->DisablePakSignatureChecks();
+#ifdef _DEBUG
+        std::cout << "[+] Disabled pak signature checks." << std::endl;
+#endif
+    }
+    catch (...)
+    {
+#ifdef _DEBUG
+        std::cout << "[!] GPakCache_Enable couldn't be found! Aborting..." << std::endl;
+        return;
+#else
+        MessageBoxA(nullptr, "Error!", "DBFZ Pak Loader", MB_OK | MB_ICONERROR);
+        FreeLibraryAndExitThread(instance, 0);
+#endif
+    }
+
     std::string target_extension = ".dbfz";
 
     const std::filesystem::path PaksPath = L"../../Content/Paks/";
-
-    platform_file_pak->KillSigChecker();
 
     for (const std::filesystem::directory_entry& entry : std::filesystem::recursive_directory_iterator(PaksPath))
     {
