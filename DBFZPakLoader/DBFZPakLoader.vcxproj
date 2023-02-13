@@ -154,6 +154,7 @@
     <ClInclude Include="UnrealEngine\Core\FPlatformFilemanager.h" />
     <ClInclude Include="UnrealEngine\PakFile\IPlatformFilePak.h" />
     <ClInclude Include="UnrealEngine\UnrealStart.h" />
+    <ClInclude Include="Utils\AddressHelper.h" />
     <ClInclude Include="Utils\FileChecker.h" />
     <ClInclude Include="Utils\GameHelper.h" />
   </ItemGroup>

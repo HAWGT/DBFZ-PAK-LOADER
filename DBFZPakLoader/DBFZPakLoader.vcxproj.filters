@@ -67,5 +67,8 @@
     <ClInclude Include="Utils\FileChecker.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\AddressHelper.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

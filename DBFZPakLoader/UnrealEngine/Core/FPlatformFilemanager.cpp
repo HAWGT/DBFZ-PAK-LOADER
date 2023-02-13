@@ -4,7 +4,7 @@
 #include "../PakFile/IPlatformFilePak.h"
 #include "../../Utils/GameHelper.h"
 
-#include <Windows.h>
+#include <windows.h>
 
 /*
 * Reverse Info

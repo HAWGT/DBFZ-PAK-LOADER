@@ -1,6 +1,6 @@
 #include "GameHelper.h"
 
-#include <Windows.h>
+#include <windows.h>
 #include <stdio.h>
 #include <string>
 #include <vector>
