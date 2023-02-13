@@ -69,9 +69,11 @@ void MountAllMods()
     std::cout << "[+] IPlatformFilePak: " << platform_file_pak << std::endl;
 #endif
 
-    std::string target_extension = ".pxk";
+    std::string target_extension = ".dbfz";
 
     const std::filesystem::path PaksPath = L"../../Content/Paks/";
+
+    platform_file_pak->ShouldCheckSignature(false);
 
     for (const std::filesystem::directory_entry& entry : std::filesystem::recursive_directory_iterator(PaksPath))
     {
@@ -104,6 +106,7 @@ void MountAllMods()
         }
         catch (...)
         {
+            platform_file_pak->ShouldCheckSignature(true);
 #ifdef _DEBUG
             std::cout << "[!] FPlatformFilePak::HandleMountPakDelegate couldn't be found! Aborting..." << std::endl;
             return;
@@ -119,6 +122,7 @@ void MountAllMods()
     Beep(659, 500);
     Beep(698, 500);
     Beep(784, 500);
+    platform_file_pak->ShouldCheckSignature(true);
     FreeLibraryAndExitThread(instance, 0);
 #endif
 }

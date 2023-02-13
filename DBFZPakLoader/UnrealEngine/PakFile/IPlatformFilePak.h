@@ -94,4 +94,6 @@ public:
     static IPlatformFilePak* getInstance();
 
     bool HandleMountPakDelegate(const FString& PakFilePath, int32 PakOrder);
+
+	void ShouldCheckSignature(bool state);
 };
