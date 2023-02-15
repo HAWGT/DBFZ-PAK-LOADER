@@ -90,7 +90,6 @@ struct FString : private TArray<wchar_t> {
 class IPlatformFilePak {
 private:
 	inline static std::uintptr_t handleMountPakDelegateFunction;
-	inline static std::uintptr_t fPakPrecacherShutdownFunction;
 	inline static int* GPakCache_Enable;
 public:
     static IPlatformFilePak* getInstance();
